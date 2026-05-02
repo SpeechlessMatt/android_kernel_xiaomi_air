@@ -147,8 +147,12 @@ $(obj)/config_data.gz: $(obj)/config_data FORCE
 
 filechk_cat = cat $<
 
+define filechk_config_fix
+	cat $< | sed 's/^CONFIG_SYSVIPC=y$$/CONFIG_SYSVIPC=n/'
+endef
+
 $(obj)/config_data: $(KCONFIG_CONFIG) FORCE
-	$(call filechk,cat)
+	$(call filechk,config_fix)
 
 $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
 
